@@ -35,7 +35,7 @@ if (!defined('DEBUG_LOG_FILE')) {
     define('DEBUG_LOG_FILE', 'debug.log');
 }
 if (!defined('EPUB_DIR')) {
-    define('EPUB_DIR', 'epubs/');
+    define('EPUB_DIR', __DIR__ . '/epubs/');
 }
 if (!defined('ISBN_LIST_FILE')) {
     define('ISBN_LIST_FILE', 'processed_isbns.txt');
@@ -752,7 +752,10 @@ EOT;
     $zip->addFromString('OEBPS/nav.xhtml', $nav_xhtml);
 
 
-    $zip->close();
+    if (!$zip->close()) {
+        log_message("ZipArchive::close() failed — file may not have been written at $epub_filename", 'FATAL');
+        return null;
+    }
 
     log_message("EPUB file successfully created at $epub_filename");
     return $epub_filename;
@@ -1634,8 +1637,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (data.success) {
                 logResult(`SUCCESS: ${data.message}. File: ${data.filename}`);
-                // In a real environment, you'd trigger a download here.
-                // For this embedded environment, we just show the final log.
             } else {
                 logResult(`EPUB GENERATION FAILED: ${data.message}`);
             }
