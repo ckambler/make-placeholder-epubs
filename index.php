@@ -825,8 +825,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // --- ACTION 3: MANUAL SEARCH (Fallback) ---
     if ($action === 'manual_search') {
-        $title = trim(filter_var($input['title'] ?? '', FILTER_SANITIZE_STRING));
-        $author = trim(filter_var($input['author'] ?? '', FILTER_SANITIZE_STRING));
+        $title = trim($input['title'] ?? '');
+        $author = trim($input['author'] ?? '');
 
         log_message("Received Manual Search request for: title='$title', author='$author'");
 
@@ -907,7 +907,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // --- ACTION 1 (Default): INITIAL ISBN SEARCH ---
 
-    $isbn = trim(filter_var($input['isbn'] ?? '', FILTER_SANITIZE_STRING));
+    $isbn = trim($input['isbn'] ?? '');
 
     try {
         if (!empty($isbn)) {
