@@ -1,7 +1,11 @@
 <?php
 // PHP Configuration
-// The script handles both the front-end HTML/JS (GET request) 
+// The script handles both the front-end HTML/JS (GET request)
 // and the back-end processing logic (POST request via AJAX).
+
+// Never let PHP inject HTML error output into responses
+ini_set('display_errors', 0);
+ini_set('html_errors', 0);
 
 // --- Debug Logging Functionality ---
 
